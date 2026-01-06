@@ -5,57 +5,96 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
 function Login() {
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate(); // ✅ correct place
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const formData = new URLSearchParams();
-      formData.append("email", email);
-      formData.append("password", password);
-
-      const response = await axios.post(
-        "http://localhost:8080/auth/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-
-      login(response.data);      // ✅ save token
-      navigate("/dashboard");    // ✅ redirect AFTER login
+      if (isRegisterMode) {
+        // Registration
+        const response = await axios.post(
+          "http://localhost:8080/auth/register",
+          {
+            username,
+            email,
+            password,
+          }
+        );
+        login(response.data);
+        navigate("/dashboard");
+      } else {
+        // Login
+        const response = await axios.post(
+          "http://localhost:8080/auth/login",
+          {
+            username,
+            password,
+          }
+        );
+        login(response.data);
+        navigate("/dashboard");
+      }
     } catch (error) {
-      alert("Invalid credentials");
+      alert(error.response?.data?.message || (isRegisterMode ? "Registration failed" : "Invalid credentials"));
     }
   };
 
   return (
     <div className="login-container">
-      <h3>Login</h3>
+      <h3>{isRegisterMode ? "Register" : "Login"}</h3>
 
       <form onSubmit={handleSubmit}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
         />
+
+        {isRegisterMode && (
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        )}
 
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">{isRegisterMode ? "Register" : "Login"}</button>
       </form>
+
+      <p style={{ marginTop: "1rem", textAlign: "center" }}>
+        {isRegisterMode ? "Already have an account? " : "Don't have an account? "}
+        <button
+          type="button"
+          onClick={() => setIsRegisterMode(!isRegisterMode)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#007bff",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+        >
+          {isRegisterMode ? "Login" : "Register"}
+        </button>
+      </p>
     </div>
   );
 }
