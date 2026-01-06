@@ -7,7 +7,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("token")
   );
 
-  const login = (jwtToken) => {
+  const login = (response) => {
+    // Extract token from response object
+    const jwtToken = response.token || response;
     localStorage.setItem("token", jwtToken);
     setToken(jwtToken);
   };
