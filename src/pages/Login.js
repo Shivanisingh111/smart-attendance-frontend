@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { AuthContext } from "../context/AuthContext";
@@ -7,8 +7,14 @@ import axios from "axios";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate(); // ✅ correct place
+  const navigate = useNavigate();
+  const { token, login } = useContext(AuthContext);
+
+    useEffect(() => {
+      if (token) {
+        navigate("/dashboard");
+      }
+    }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +34,8 @@ function Login() {
         }
       );
 
-      login(response.data);      // ✅ save token
-      navigate("/dashboard");    // ✅ redirect AFTER login
+      login(response.data);     
+      navigate("/dashboard");    
     } catch (error) {
       alert("Invalid credentials");
     }
