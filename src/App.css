@@ -1,0 +1,23 @@
+:root {
+  --bg: #0b0f1a;
+  --card: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --accent: #7ca5ff;
+  --success: #3ddc97;
+  --danger: #ff6b6b;
+  --blur: blur(20px);
+}
+
+.light {
+  --bg: #f5f7ff;
+  --card: rgba(255, 255, 255, 0.85);
+  --text: #111;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.5s ease, color 0.5s ease;
+}

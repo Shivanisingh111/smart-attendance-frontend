@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import MagneticCursor from "./MagneticCursor";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
@@ -10,7 +11,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <h2>Smart Attendance</h2>
+      <MagneticCursor />
 
       <Routes>
         <Route
