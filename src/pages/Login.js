@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { AuthContext } from "../context/AuthContext";
@@ -7,8 +7,14 @@ import axios from "axios";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate(); // ✅ correct place
+  const navigate = useNavigate();
+  const { token, login } = useContext(AuthContext);
+
+    useEffect(() => {
+      if (token) {
+        navigate("/dashboard");
+      }
+    }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,36 +34,44 @@ function Login() {
         }
       );
 
-      login(response.data);      // ✅ save token
-      navigate("/dashboard");    // ✅ redirect AFTER login
+      login(response.data);     
+      navigate("/dashboard");    
     } catch (error) {
       alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="login-container">
-      <h3>Login</h3>
+    <div className="login-wrapper">
+      <div className="login-card">
+        <h2>🚀 Smart Attendance</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <button type="submit">Login</button>
-      </form>
+          <button className="magnetic" type="submit">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
+
   );
+  
 }
 
 export default Login;

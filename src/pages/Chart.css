@@ -1,0 +1,16 @@
+.chart {
+  margin-top: 20px;
+}
+
+.bar {
+  height: 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #7c7cff, #ff77fd);
+  animation: grow 1.5s ease forwards;
+}
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
+}

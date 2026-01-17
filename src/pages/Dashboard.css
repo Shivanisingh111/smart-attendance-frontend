@@ -1,0 +1,70 @@
+.dashboard-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glass-card {
+  width: 420px;
+  padding: 30px;
+  border-radius: 24px;
+  background: var(--card);
+  backdrop-filter: var(--blur);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  animation: fadeUp 1s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.status-chip {
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: rgba(124, 124, 255, 0.15);
+  margin: 15px 0;
+}
+
+.glass-card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-in {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-out {
+  background: var(--success);
+  color: #000;
+}
+
+.btn-logout {
+  background: var(--danger);
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
